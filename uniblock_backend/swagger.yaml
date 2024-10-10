@@ -1,0 +1,320 @@
+swagger: '2.0'
+info:
+  title: online-voting API
+  description: online-voting API 문서
+  version: v1
+host: 127.0.0.1:8000
+schemes:
+- http
+basePath: /
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /post/:
+    get:
+      operationId: post_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Post'
+      tags:
+      - post
+    post:
+      operationId: post_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PostCreate'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/PostCreate'
+      tags:
+      - post
+    parameters: []
+  /post/{id}/:
+    get:
+      operationId: post_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Post'
+      tags:
+      - post
+    put:
+      operationId: post_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PostCreate'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/PostCreate'
+      tags:
+      - post
+    patch:
+      operationId: post_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PostCreate'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/PostCreate'
+      tags:
+      - post
+    delete:
+      operationId: post_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - post
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this post.
+      required: true
+      type: integer
+  /post/{id}/tally/:
+    get:
+      operationId: post_tally_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - post
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+  /post/{id}/vote/:
+    post:
+      operationId: post_vote_create
+      description: ''
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+      - post
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+  /user/login/:
+    post:
+      operationId: user_login_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Login'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Login'
+      tags:
+      - user
+    parameters: []
+  /user/profile/:
+    get:
+      operationId: user_profile_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Profile'
+      tags:
+      - user
+    put:
+      operationId: user_profile_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Profile'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Profile'
+      tags:
+      - user
+    patch:
+      operationId: user_profile_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Profile'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Profile'
+      tags:
+      - user
+    parameters: []
+  /user/register/:
+    post:
+      operationId: user_register_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Register'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Register'
+      tags:
+      - user
+    parameters: []
+definitions:
+  Profile:
+    required:
+    - nickname
+    - department
+    type: object
+    properties:
+      nickname:
+        title: Nickname
+        type: string
+        maxLength: 128
+        minLength: 1
+      department:
+        title: Department
+        type: string
+        maxLength: 128
+        minLength: 1
+  Post:
+    required:
+    - author
+    - title
+    - content
+    type: object
+    properties:
+      pk:
+        title: ID
+        type: integer
+        readOnly: true
+      profile:
+        $ref: '#/definitions/Profile'
+      author:
+        title: Author
+        type: integer
+      title:
+        title: Title
+        type: string
+        maxLength: 128
+        minLength: 1
+      content:
+        title: Content
+        type: string
+        minLength: 1
+  PostCreate:
+    required:
+    - title
+    - content
+    type: object
+    properties:
+      title:
+        title: Title
+        type: string
+        maxLength: 128
+        minLength: 1
+      content:
+        title: Content
+        type: string
+        minLength: 1
+  Login:
+    required:
+    - username
+    - password
+    type: object
+    properties:
+      username:
+        title: Username
+        type: string
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+  Register:
+    required:
+    - username
+    - email
+    - password
+    - password2
+    type: object
+    properties:
+      username:
+        title: Username
+        description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          only.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      email:
+        title: Email
+        type: string
+        format: email
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      password2:
+        title: Password2
+        type: string
+        minLength: 1

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표 게시판</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        h1, h2 { color: #333; }
+        #postForm, #postList, #postDetail { margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+        #postList div { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+        #voteButtons { margin-top: 10px; }
+        #voteButtons button { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>투표 게시판</h1>
+
+    <div id="postForm">
+        <h2>새 게시글 작성</h2>
+        <input type="text" id="postTitle" placeholder="제목" required>
+        <textarea id="postContent" placeholder="내용" required></textarea>
+        <button onclick="createPost()">게시글 작성</button>
+    </div>
+
+    <div id="postList">
+        <h2>게시글 목록</h2>
+        <!-- 게시글 목록이 여기에 동적으로 추가됩니다 -->
+    </div>
+
+    <div id="postDetail" style="display: none;">
+        <h2 id="detailTitle"></h2>
+        <p id="detailContent"></p>
+        <div id="voteButtons">
+            <button onclick="vote('O')">동의</button>
+            <button onclick="vote('X')">비동의</button>
+        </div>
+        <p id="voteResult"></p>
+        <button onclick="showPostList()">목록으로</button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
